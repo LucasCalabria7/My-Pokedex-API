@@ -2,8 +2,9 @@ import styled from 'styled-components'
 import background from '../assets/background-card.svg'
 
 
+
 export const GlobalCard = styled.div `
-background-color: #729F92;
+background-color: ${props => props.color};
 width: 27.5rem;
 height: 13.125rem;
 border-radius: 0.75rem;

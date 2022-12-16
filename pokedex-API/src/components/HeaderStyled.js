@@ -5,7 +5,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 height: 15vh;
-width: 100vw;
+max-width: 100vw;
 background-color: white;
 `
 

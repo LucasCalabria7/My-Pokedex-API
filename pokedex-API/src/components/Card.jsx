@@ -1,46 +1,62 @@
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 import { GlobalCard, PokeInfoArea, PokeId, PokeName, TypeArea, DetailButton, PokeArea, PokeImage, CaptureButton } from './CardStyled.js'
 
-import bulba from '../assets/bulba.svg'
+import {getTypes} from '../utils/PokemonTypes'
+import {getColors} from '../utils/PokemonBackground'
 
-import grass from '../assets/grass-type.svg'
-import poison from '../assets/poison-type.svg'
-import fire from '../assets/fire-type.svg'
-import fly from '../assets/fly-type.svg'
-import water from '../assets/water-type.svg'
-import bug from '../assets/bug-type.svg'
-import normal from '../assets/normal-type.svg'
-import dark from '../assets/dark-type.svg'
-import dragon from '../assets/dragon-type.svg'
-import eletric from '../assets/eletric-type.svg'
-import fairy from '../assets/fairy-type.svg'
-import fight from '../assets/fight-type.svg'
-import ghost from '../assets/ghost-type.svg'
-import ground from '../assets/ground-type.svg'
-import ice from '../assets/ice-type.svg'
-import psych from '../assets/psych-type.svg'
-import rock from '../assets/rock-type.svg'
-import steel from '../assets/steel-type.svg'
+export function Card(props) {
 
-export function Card (props) {
+    const [idPokemon, setIdPokemon] = useState([])
+    const [types, setTypes] = useState([])
+    const [pokeImg, setPokeImg] = useState([])
+
+    const getDataPokemons = () => {
+        axios.get(`${props.pokemon.url}`)
+            .then((resp) => {
+                
+                setIdPokemon(resp.data.id)
+                setTypes(resp.data.types)
+                setPokeImg(resp.data.sprites.other["official-artwork"]["front_default"])
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    useEffect(() => {
+        getDataPokemons()
+    }, []);
+
+    const cardColor = () => {
+        const pokemonTypes = types;
+        const firstPokemonType = pokemonTypes ? pokemonTypes[0] : {};
+        const firstPokemonTypeName = firstPokemonType;
+        return getColors(firstPokemonTypeName?.type.name);
+    }
+
 
     return (
         <>
-        <GlobalCard>
-            <PokeInfoArea>
-                <PokeId>#{props.idPokemon}</PokeId>
-                <PokeName>{props.pokemon.name}</PokeName>
-                <TypeArea>
-                    <img src={grass} alt='type' />
-                    <img src={poison} alt='type' />
-                </TypeArea>
-                <DetailButton>Details</DetailButton>
-            </PokeInfoArea>
+            <GlobalCard color={cardColor()} >
+                <PokeInfoArea>
+                    <PokeId>#{idPokemon}</PokeId>
+                    <PokeName>{props.pokemon.name}</PokeName>
+                    <TypeArea>
+                        {types.map((type, index) => {
+                            const typeName = getTypes(type.type.name)
+                            return < img src={typeName} alt='type' key={index} />
+                        })}
+                    </TypeArea>
+                    <DetailButton>Details</DetailButton>
+                </PokeInfoArea>
 
-            <PokeArea>
-                <PokeImage src={bulba} alt='poke-image' />
-                <CaptureButton>Capture!</CaptureButton>
-            </PokeArea>
-        </GlobalCard>
+                <PokeArea>
+                    <PokeImage src={pokeImg} alt='poke-image' />
+                    <CaptureButton >Capture!</CaptureButton>
+                </PokeArea>
+            </GlobalCard>
         </>
     )
 }
