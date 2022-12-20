@@ -4,14 +4,12 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 
-export function HomePage () { 
-
-    const [pokemons, setPokemons] = useState([])
+export function HomePage (props) { 
 
     const getPokemons = () => {
         axios.get("https://pokeapi.co/api/v2/pokemon")
         .then((resp)=> {
-            setPokemons(resp.data.results)
+            props.setPokemons(resp.data.results)
         })
         .catch((error)=> {
             console.log(error)
@@ -27,10 +25,12 @@ export function HomePage () {
         <>
         <TitlePage>All Pokemons</TitlePage>
         <GlobalHomePage>
-            {pokemons.map((pokemon)=> {
+            {props.pokemons.map((pokemon)=> {
                 return <Card 
                 key={pokemon.url}
                 pokemon={pokemon}
+                myPokemons={props.myPokemons}
+                setMyPokemons={props.setMyPokemons}
                 />
             })}
         </GlobalHomePage>
