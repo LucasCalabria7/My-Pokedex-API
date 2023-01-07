@@ -49,7 +49,7 @@ export function DetailsCard (props) {
             </PokeTitleArea>
             <PokeMovesArea>
                 <h2>Moves:</h2>
-                {props.pokemon?.moves && props.pokemon?.moves.filter((move,i) => i < 4).map((move)=> { return (<p>{move.move.name}</p>)})}
+                {props.pokemon?.moves && props.pokemon?.moves.filter((move,i) => i < 8).map((move)=> { return (<p>{move.move.name}</p>)})}
             </PokeMovesArea>
                 <FinalImage src={props.pokemon?.sprites?.other['official-artwork'].front_default} alt="pokemon"/>
         </TitleMovesArea>

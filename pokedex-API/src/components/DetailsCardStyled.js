@@ -25,6 +25,7 @@ display: flex;
 background-color: white;
 border-radius: 2.368rem;
 `
+
 export const StatsArea = styled.div`
 width: 50%;
 height: 93%;
@@ -43,7 +44,7 @@ export const BarStats = styled.span`
     
     div{
         border: 2px groove ${props => props.stats < 50 ? 'red' : props.stats < 99 ? 'goldenrod' : 'green'};
-        width: ${props => (props.stats / 100) * 100}%;
+        width: ${props => (props.stats / 100) * 90}%;
         background-color: ${props => props.stats < 50 ? '#ff615d' : props.stats < 99 ? '#F4EA56' : 'lightgreen'};
         border-radius: 8px;
         height: 80%;

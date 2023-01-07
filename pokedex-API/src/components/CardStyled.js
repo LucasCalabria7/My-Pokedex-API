@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import background from '../assets/background-card.svg'
 
 
-
 export const GlobalCard = styled.div `
 background-color: ${props => props.color};
 width: 27.5rem;
@@ -75,6 +74,19 @@ width: 8rem;
 height: 2rem;
 align-self: start;
 background-color: #ffff;
+color: black;
+border-radius: 0.5rem;
+font-weight: 700;
+
+:hover {
+    cursor: pointer;
+}
+`
+export const ReleaseButton = styled.button `
+width: 8rem;
+height: 2rem;
+align-self: start;
+background-color: #ff615d;
 color: black;
 border-radius: 0.5rem;
 font-weight: 700;

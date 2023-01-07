@@ -43,6 +43,17 @@ function App() {
     console.log(myPokemons)
   }
 
+  const removePokemon = (pokemonRemoved) => {
+    const filteredMyPokemon = myPokemons.filter((pokemon)=> {
+      if(pokemonRemoved.id !== pokemon.id) {
+        return pokemon
+      }
+    })
+    let copyPokemons = [...pokemons, filteredMyPokemon]
+    setPokemons(copyPokemons)
+    setMyPokemons(filteredMyPokemon)
+  }
+
   const context = {
     pokemons,
     setPokemons,
@@ -50,6 +61,7 @@ function App() {
     setMyPokemons,
     addCard,
     details,
+    removePokemon
   }
 
   return (
