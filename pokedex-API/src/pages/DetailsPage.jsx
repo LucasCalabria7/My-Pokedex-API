@@ -1,44 +1,33 @@
-import { TitlePage, GlobalCardDetails, BaseStatsArea, PokeImage, StatsArea, TitleMovesArea, PokeTitleArea, PokeMovesArea, PokeId, PokeName, TypeArea } from './DetailsPageStyled.js'
-import grass from '../assets/grass-type.svg'
-import poison from '../assets/poison-type.svg'
-import bulba from '../assets/bulba.svg'
+import { useContext } from 'react'
+import {TitlePage, TitleArea, HomeButton} from './DetailsPageStyled'
+import { Globalcontext } from '../context/GlobalContext'
+import { DetailsCard } from '../components/DetailsCard'
+import { useNavigate, useParams } from "react-router-dom";
+import { goToHomePage} from '../routes/coordinator'
 
 
-export function DetailsPage () {
+export function DetailsPage() {
+
+    const params = useParams()
+    const pokeName = params.pokemonName
+    const context = useContext(Globalcontext)
+    const { details } = context
+    const navigate = useNavigate()
+
     return (
         <>
+        <TitleArea>
             <TitlePage>Details</TitlePage>
+            <HomeButton onClick={()=> goToHomePage(navigate)} >Go to Pokemons</HomeButton>
+        </TitleArea>
 
-            <GlobalCardDetails>
-                <BaseStatsArea>
-                    <PokeImage>
-                        
-                    </PokeImage>
-                    <PokeImage>
-
-                    </PokeImage>
-
-                    <StatsArea>
-
-                    </StatsArea>
-                </BaseStatsArea>
-
-                <TitleMovesArea>
-                    <PokeTitleArea>
-                        <PokeId>#01</PokeId>
-                        <PokeName>Bulbassaur</PokeName>
-                        <TypeArea>
-                            <img src={grass} alt='type' />
-                            <img src={poison} alt='type' />
-                        </TypeArea>
-                    </PokeTitleArea>
-                    <PokeMovesArea>
-                        <p>Moves:</p>
-                    </PokeMovesArea>
-
-                        <img src={bulba} alt='pokemon' />
-                </TitleMovesArea>
-            </GlobalCardDetails>
+            {details.filter((pokemon)=> pokemon.name === pokeName)
+            .map((pokemon)=> {
+                return <DetailsCard 
+                pokemon={pokemon}
+                key={pokemon}
+                />
+            })}
         </>
     )
 }

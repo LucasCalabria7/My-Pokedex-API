@@ -1,36 +1,22 @@
 import { Card } from '../components/Card'
 import { TitlePage, GlobalHomePage } from './HomePageStyled.js'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import {useContext} from 'react'
+import {Globalcontext} from '../context/GlobalContext'
 
 
-export function HomePage (props) { 
+export function HomePage () { 
 
-    const getPokemons = () => {
-        axios.get("https://pokeapi.co/api/v2/pokemon")
-        .then((resp)=> {
-            props.setPokemons(resp.data.results)
-        })
-        .catch((error)=> {
-            console.log(error)
-        })
-    }
-
-    useEffect(()=> {
-        getPokemons()
-    },[]);
-
+    const context = useContext(Globalcontext)
+    const {pokemons} = context
 
     return (
         <>
         <TitlePage>All Pokemons</TitlePage>
         <GlobalHomePage>
-            {props.pokemons.map((pokemon)=> {
-                return <Card 
-                key={pokemon.url}
+            {pokemons.map((pokemon)=> {
+                return <Card
+                key={pokemon.id}
                 pokemon={pokemon}
-                myPokemons={props.myPokemons}
-                setMyPokemons={props.setMyPokemons}
                 />
             })}
         </GlobalHomePage>
