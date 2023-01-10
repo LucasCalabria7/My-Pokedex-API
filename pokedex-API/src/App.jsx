@@ -1,33 +1,76 @@
-import react from 'react'
 import { Router } from './routes/Route'
-
-import styled, { createGlobalStyle } from 'styled-components'
-
-const GlobalStyles = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-  }
-`
-
-const Container = styled.div`
-  display:flex;
-  flex-direction:column;
-  min-height: 100vh;
-  max-width: 100vw;
-  background-color: #363636;
-`
-
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { Globalcontext } from './context/GlobalContext'
+import { BASE_URL } from './constants/BASE_URL'
+import { GlobalStyles, Container } from './GlobalStyles'
 
 function App() {
+
+  const [myPokemons, setMyPokemons] = useState([])
+  const [pokemons, setPokemons] = useState([])
+  const [details, setDetails] = useState([])
+
+  useEffect(() => {
+    getPokemons()
+  }, []);
+
+  const getPokemons = () => {
+    const pokeAux = [... new Set(pokemons)]
+    for (let i = 1; i <= 50; i++) {
+      axios.get(`${BASE_URL}/${i}`)
+        .then((resp) => {
+          pokeAux.push(resp.data)
+          setPokemons(pokeAux)
+          setDetails(pokeAux)
+        })
+        .catch((erro) => {
+          console.log(erro)
+        })
+    }
+  }
+
+  const addCard = (pokemonAdded) => {
+    const filteredPokemon = pokemons.filter((pokemon) => {
+      if (pokemonAdded.id !== pokemon.id) {
+        return pokemon
+      }
+    })
+
+    let copyMyPokemons = [...myPokemons, pokemonAdded]
+    setMyPokemons(copyMyPokemons)
+    setPokemons(filteredPokemon)
+    console.log(myPokemons)
+  }
+
+  const removePokemon = (pokemonRemoved) => {
+    const filteredMyPokemon = myPokemons.filter((pokemon)=> {
+      if(pokemonRemoved.id !== pokemon.id) {
+        return pokemon
+      }
+    })
+    let copyPokemons = [...pokemons, pokemonRemoved]
+    setPokemons(copyPokemons)
+    setMyPokemons(filteredMyPokemon)
+  }
+
+  const context = {
+    pokemons,
+    setPokemons,
+    myPokemons,
+    setMyPokemons,
+    addCard,
+    details,
+    removePokemon
+  }
 
   return (
     <>
       <GlobalStyles />
       <Container>
-        <Router />
+        <Globalcontext.Provider value={context}>
+          <Router />
+        </Globalcontext.Provider>
       </Container>
     </>
   )
