@@ -49,7 +49,7 @@ function App() {
         return pokemon
       }
     })
-    let copyPokemons = [...pokemons, filteredMyPokemon]
+    let copyPokemons = [...pokemons, pokemonRemoved]
     setPokemons(copyPokemons)
     setMyPokemons(filteredMyPokemon)
   }

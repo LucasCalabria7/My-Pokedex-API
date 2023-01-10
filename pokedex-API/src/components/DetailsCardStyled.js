@@ -87,6 +87,7 @@ gap: 2rem;
 font-weight: 600;
 padding: 1.5rem;
 background-color: white;
+overflow: auto;
 `
 
 export const PokeId = styled.p`
